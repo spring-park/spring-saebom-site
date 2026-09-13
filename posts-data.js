@@ -17,6 +17,14 @@
  */
 window.POSTS = [
   {
+    slug: "can-machine-learning-predict-human-migration-better",
+    title: "Can Machine Learning Predict Human Migration Better?",
+    date: "2026-09-13",
+    excerpt:
+      "A review of how machine learning models handle unusual migration data and compare with traditional approaches to predicting human migration.",
+    tag: "Data Science",
+  },
+  {
     slug: "hello-world",
     title: "Hello, and welcome",
     date: "2026-08-28",
