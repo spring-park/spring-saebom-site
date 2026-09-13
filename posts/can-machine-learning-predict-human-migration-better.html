@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Can Machine Learning Predict Human Migration Better? — Saebom Park</title>
+<meta name="description" content="A review of Robinson and Dilkina’s 2018 study comparing machine learning and traditional models for predicting human migration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+
+<main class="page page--narrow">
+
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta">
+        <span>September 13, 2026</span>
+        <span>·</span>
+        <span>Data Science</span>
+      </div>
+      <h1 class="post-header__title">Can Machine Learning Predict Human Migration Better?</h1>
+    </header>
+
+    <div class="post-content">
+      <p><em>This post reviews Robinson and Dilkina’s (2018) study on using machine learning to predict human migration. I focus on how the authors build the prediction models, deal with unusual migration data, and compare machine learning with traditional migration models.</em></p>
+
+      <h2>1. Research Context</h2>
+
+      <h3>Why Study Human Migration?</h3>
+      <p>Human migration prediction is useful for population planning, infrastructure, labor markets, disease spread, and changes in international trade.</p>
+
+      <h3>Background and Research Gap</h3>
+      <p>Recent research focuses on human commuting flows instead of human migration. Traditional mobility models mainly rely on population and distance, while the radiation model also considers intervening opportunities.</p>
+      <p>Gravity/radiation models have fixed mathematical forms, so they are interpretable but may miss complex nonlinear relationships.</p>
+      <p><em>At first, I thought a linear relationship meant that one variable directly causes an outcome. However, here it simply means that the effect of a variable is assumed to follow a relatively fixed mathematical relationship, while ML models can capture more complex nonlinear patterns.</em></p>
+
+      <h3>Research Objective</h3>
+      <p>The paper does not state explicit research questions. However, its main objective is to examine whether machine learning models can predict human migration more accurately than traditional gravity and radiation models.</p>
+
+      <h3>Proposed Approach</h3>
+      <p>Use XGBoost and ANN to directly predict the number of migrants moving from an origin zone to a destination zone using features of the origin, features of the destination, and the between-zone features.</p>
+
+      <h2>2. Data</h2>
+
+      <h3>USA Migration dataset</h3>
+      <p>The dataset covers yearly intra-country migration among 3,106 U.S. counties from 2004 to 2014 using IRS Tax-Stats data.</p>
+      <p>The authors supplement the migration data with seven per-county features, taken from U.S. Census estimates and calculated using Census TIGER line maps of U.S. county boundaries:</p>
+      <ul>
+        <li>population</li>
+        <li>land area</li>
+        <li>population density</li>
+        <li>median household income</li>
+        <li>county water area</li>
+        <li>whether the county is coastal</li>
+        <li>number of neighboring counties</li>
+      </ul>
+      <p>They also add between-county features based on the radiation model’s idea of intervening opportunities, including distance, intervening population, intervening land area, intervening number of counties, intervening population density, and intervening median income.</p>
+
+      <h3>Global Migration dataset</h3>
+      <p>The dataset contains decadal inter-country migration flows among 207 countries using the World Bank Global Bilateral Migration Database. It includes five timesteps, one every 10 years from 1960 to 2000.</p>
+      <p>The authors supplement the migration data with five per-country features:</p>
+      <ul>
+        <li>population</li>
+        <li>population density</li>
+        <li>population growth</li>
+        <li>agricultural emissions</li>
+        <li>land area</li>
+      </ul>
+      <p>These features come from the World Bank World Development Indicators.</p>
+      <p>They also include three between-country features:</p>
+      <ul>
+        <li>distance</li>
+        <li>intervening population</li>
+        <li>intervening land area</li>
+      </ul>
+      <p>These between-country features describe the relationship between the origin and destination countries and are used as additional inputs for predicting migration flows.</p>
+
+      <h3>Major characteristics of the data</h3>
+      <p>Each observation is one origin–destination pair. Input includes origin features, destination features, and between-zone features. The target is the number of migrants.</p>
+
+      <h3>Important issue with the dataset</h3>
+      <p>Data are highly zero-inflated. Most pairs have zero migration, especially in the U.S. dataset. (This means that if we don’t solve this issue, just saying “0 migrating” without any study will be correct 99%. No meaning of analyzing!)</p>
+
+      <h3>Pre-processing</h3>
+      <p>The authors keep all nonzero migration samples but randomly sample only a portion of the zero-migration samples during training using the downsampling parameter <em>k</em>. The full datasets are still used for validation and testing.</p>
+
+      <h2>3. Method</h2>
+
+      <h3>Traditional models</h3>
+      <p>Gravity/radiation models first estimate total leaving migrants using a production function, then distribute them across destinations.</p>
+      <p><em>I initially thought the production function was the migration model itself, but it is simply a step that estimates how many people leave an origin zone in total before the traditional model distributes them across destinations.</em></p>
+
+      <h3>Machine Learning Approach</h3>
+      <p>XGBoost/ANN directly predict the number moving from zone <em>i</em> to zone <em>j</em>, without needing the production function.</p>
+      <p><em>The word “directly” confused me at first because it sounded like the model simply guesses the migration number. In fact, it learns a relationship from training data between the input features and the actual migration flow, and then uses that learned relationship to predict.</em></p>
+
+      <h3>XGBoost (Extreme Gradient Boosting regression)</h3>
+      <p>Many decision trees are built sequentially. Later trees correct errors left by earlier trees.</p>
+
+      <h3>ANN (Artificial Neural network model)</h3>
+      <p>Features pass through dense layers with ReLU. ReLU turns negative values into zero and keeps positive values unchanged.</p>
+      <p>The model repeatedly updates weights to reduce loss.</p>
+      <p><em>I initially could not understand what an epoch meant. I learned that the model updates its weights after each mini-batch, so every new epoch starts with an already updated model.</em></p>
+
+      <h3>Custom loss</h3>
+      <p>The authors develop a CPC-based loss because the migration data are highly zero-inflated and long-tailed, and CPC is one of their key evaluation metrics.</p>
+      <p>The goal is to make predicted migration overlap more with actual migration.</p>
+      <p><em>I first understood CPC only as an evaluation metric, so I was confused when it appeared again as a loss function. The authors adapt the same idea of overlap between actual and predicted migration so that the ANN can learn toward predictions with higher overlap.</em></p>
+
+      <h3>Hyperparameter tuning</h3>
+      <ul>
+        <li><strong>XGBoost:</strong> maximum tree depth, number of estimators, learning rate</li>
+        <li><strong>ANN:</strong> loss function, number of layers, layer width, number of training epochs, mini-batch size</li>
+      </ul>
+      <p>They use randomized grid search to test different combinations and select the combination with the best validation CPC.</p>
+
+      <h2>4. Validation</h2>
+      <p>Three consecutive timesteps are used as the training, validation, and test sets, respectively. (past timestep = training → next timestep = validation → next timestep = test.)</p>
+      <p>Year itself is not used as an input feature. The order is kept because the goal is future prediction.</p>
+      <p><em>This part confused me the most. Since year itself is not used as an input feature, I first wondered why the years still had to stay in order. I eventually understood that the chronological order is preserved to imitate real forecasting: the model learns from an earlier period and is evaluated on later periods.</em></p>
+      <ul>
+        <li>They repeat this over multiple consecutive time periods and average test results.</li>
+        <li>Metrics to assess models: CPC, CPCd, RMSE, R<sup>2</sup>, incoming MAE, incoming R<sup>2</sup>.
+          <ul>
+            <li>CPC = how much predicted flows overlap with actual flows</li>
+            <li>CPCd = whether travel-distance patterns match</li>
+            <li>RMSE = how large prediction errors are</li>
+            <li>R<sup>2</sup> = how well the model performs relative to simply predicting the mean</li>
+            <li>Incoming metrics = how well total migrants entering each region are predicted</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>5. Analysis: Results + Interpretation</h2>
+      <p>Overall, the ML models outperform the traditional gravity and radiation models.</p>
+      <p>The results suggest that features beyond those used by traditional models are needed for more accurate migration prediction.</p>
+      <p>For the extended-feature results, ML models without a production function generally performed better than the same models with a production function.</p>
+      <p>XGBoost was better on most per-link metrics, while ANN was better at predicting total incoming migrants.</p>
+      <p><em>I initially confused these two types of evaluation: per-link metrics evaluate each origin–destination pair separately, while incoming-migrant metrics add together all flows entering the same destination.</em></p>
+
+      <h3>Feature importance</h3>
+      <p>U.S.: The # of intervening counties was the most important feature.</p>
+      <p>Global: Population growth of the origin country was the most important feature on average, but its importance varied across timesteps.</p>
+
+      <h3>Interpretation</h3>
+      <blockquote>
+        <p>Flexible ML models can combine more features and capture nonlinear relationships that fixed analytical models may miss.</p>
+      </blockquote>
+
+      <h2>6. Reflection</h2>
+
+      <h3>What I learned</h3>
+      <p>One of the main things I learned from this paper is that traditional models are easier to interpret, while ML can capture more complex nonlinear relationships. I also learned why data imbalance and loss functions matter and gained a better understanding of train-validation-test splitting. More broadly, the paper showed me that model performance depends not only on the model itself, but also on preprocessing, loss-function design, and validation.</p>
+      <p>The most difficult parts for me were understanding the production function, what “direct prediction” actually means, and why the data were split chronologically even though year itself was not an input feature. I also initially struggled with concepts such as nonlinear relationships, data imbalance, and the CPC-based loss function. After going through the paper more carefully, I understood that these concepts are all connected to the same goal: designing a model that can learn complex migration patterns and evaluate whether those patterns can predict future migration.</p>
+
+      <h3>What I still want to know</h3>
+      <p>I still want to know how the results would change if long-term temporal trends were explicitly included in the model. I also want to better understand why the CPC-based loss performed better than MSE and how much predictive accuracy is gained at the cost of interpretability.</p>
+    </div>
+  </article>
+
+  <footer class="page__footer">
+    <span>© 2026 Saebom Park</span>
+    <a href="../blog.html">&larr; All posts</a>
+  </footer>
+
+</main>
+
+</body>
+</html>
