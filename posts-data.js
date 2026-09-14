@@ -17,6 +17,14 @@
  */
 window.POSTS = [
   {
+    slug: "birthday-problem-monte-carlo",
+    title: "The Birthday Problem with Monte Carlo Simulation",
+    date: "2026-09-13",
+    excerpt:
+      "Using Python, sets, and Monte Carlo simulation to estimate the chance that two students in a class share a birthday.",
+    tag: "Python",
+  },
+  {
     slug: "can-machine-learning-predict-human-migration-better",
     title: "Can Machine Learning Predict Human Migration Better?",
     date: "2026-09-13",
