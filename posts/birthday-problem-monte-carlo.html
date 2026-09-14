@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Birthday Problem with Monte Carlo Simulation — Saebom Park</title>
+<meta name="description" content="Using Python, sets, and Monte Carlo simulation to estimate the probability that two students share a birthday.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<!-- Uses the exact stylesheet already used by spring-saebom-site.
+     The absolute URL also keeps the design intact when this file is previewed locally. -->
+<link rel="stylesheet" href="https://spring-park.github.io/spring-saebom-site/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+
+<main class="page page--narrow">
+
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta">
+        <span>Sep 13, 2026</span>
+        <span>·</span>
+        <span>Python</span>
+      </div>
+      <h1 class="post-header__title">The Birthday Problem with Monte Carlo Simulation</h1>
+    </header>
+
+    <div class="post-content">
+      <p>
+        Suppose there are 20 students in a class. What is the probability that
+        at least two students have the same birthday? Instead of solving the
+        probability directly with a formula, we can estimate it by repeating
+        the same random experiment many times in Python.
+      </p>
+
+      <h2>The idea</h2>
+      <p>
+        This is a Monte Carlo simulation. One trial creates 20 random birthdays
+        and checks whether any birthday appears more than once. If we repeat
+        this trial 10,000 times, the fraction of trials with a repeated birthday
+        gives us an estimate of the probability.
+      </p>
+
+      <ol>
+        <li>Generate 20 random birthdays from day 1 to day 365.</li>
+        <li>Convert the birthdays to a <code>set</code>.</li>
+        <li>Check whether there are fewer than 20 unique birthdays.</li>
+        <li>Repeat the experiment 10,000 times.</li>
+        <li>Divide the number of matches by 10,000.</li>
+      </ol>
+
+      <h2>The Python code</h2>
+      <p><code>count = 0</code></p>
+      <p><code>for i in range(10000):</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;&nbsp;birthdays = set(np.random.randint(1, 366, 20))</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;&nbsp;l = len(birthdays)</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;&nbsp;if l != 20:</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count += 1</code></p>
+      <p><code>count / 10000</code></p>
+
+      <h2>How it works</h2>
+
+      <h3>1. Create a counter</h3>
+      <p>
+        <code>count = 0</code> starts a counter for the number of simulated
+        classes that contain at least one shared birthday.
+      </p>
+
+      <h3>2. Repeat the experiment</h3>
+      <p>
+        <code>for i in range(10000)</code> runs the same random experiment
+        10,000 times. A larger number of trials usually gives a more stable
+        estimate.
+      </p>
+
+      <h3>3. Generate 20 birthdays</h3>
+      <p>
+        <code>np.random.randint(1, 366, 20)</code> generates 20 random integers
+        from 1 through 365. Each number represents one day of the year.
+      </p>
+
+      <h3>4. Why use a set?</h3>
+      <p>
+        A <code>set</code> keeps only unique values. For example,
+        <code>[10, 25, 25, 80]</code> becomes <code>{10, 25, 80}</code>.
+        Therefore, if 20 students produce fewer than 20 unique birthday values,
+        at least two students must share a birthday.
+      </p>
+
+      <h3>5. Estimate the probability</h3>
+      <p>
+        After all 10,000 trials, <code>count / 10000</code> calculates the
+        proportion of simulated classes with at least one shared birthday.
+      </p>
+
+      <p>
+        With <code>np.random.seed(2019)</code>, my simulation returned
+        <strong>0.4115</strong>, or about <strong>41.15%</strong>. Since this is
+        a random simulation, the exact result can change slightly when a
+        different random seed is used.
+      </p>
+
+      <h2>What I learned</h2>
+      <p>
+        My first idea was to compare every student's birthday with every other
+        student's birthday. That works, but a <code>set</code> makes the check
+        much simpler because duplicate values are removed automatically.
+      </p>
+      <p>
+        This problem also shows why simulation is useful. We do not always need
+        to begin with a probability formula. If we can describe the random
+        process clearly, Python can repeat it many times and give us a useful
+        numerical estimate.
+      </p>
+    </div>
+  </article>
+
+  <footer class="page__footer">
+    <span>© 2026 Saebom Park</span>
+    <a href="../blog.html">&larr; All posts</a>
+  </footer>
+
+</main>
+
+</body>
+</html>
