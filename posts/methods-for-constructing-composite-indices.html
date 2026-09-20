@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methods for Constructing Composite Indices: One for All or All for One? — Saebom Park</title>
+<meta name="description" content="A comparison of composite indices presented by Mazziotta and Pareto (2013), including their purposes, variables, and key features.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+
+<main class="page page--narrow">
+
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta">
+        <span>Sep 20, 2026</span>
+        <span>·</span>
+        <span>Data Science</span>
+      </div>
+      <h1 class="post-header__title">Methods for Constructing Composite Indices: One for All or All for One?</h1>
+    </header>
+
+    <div class="post-content">
+      <p>
+        Mazziotta and Pareto (2013), <em>Methods for Constructing Composite Indices: One for All or All for One?</em> The paper explains that multidimensional phenomena such as development, poverty, well-being, and quality of life cannot be represented by a single basic indicator, which is why composite indices combine several dimensions.
+      </p>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Name of the Index</th>
+              <th>Phenomenon Measured (Purpose)</th>
+              <th>Variables Used</th>
+              <th>Notes / Key Features Mentioned in the Paper</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Human Development Index (HDI)</strong></td>
+              <td>Human development and overall well-being</td>
+              <td>Life expectancy at birth / Education / GDP per capita</td>
+              <td>Before 2010 : arithmetic mean - allowed a high score in one dimension to compensate for a low score in another.<br><br>Since 2010:&nbsp; geometric mean to reduce compensation<br>&gt;&gt; But problems by the change:&nbsp; zero values or null + assumes a multiplicative relationship among variables</td>
+            </tr>
+            <tr>
+              <td><strong>Human Poverty Index (HPI)</strong></td>
+              <td>Poverty and deprivation, for developing countries</td>
+              <td>Deprivation in longevity / Deprivation in knowledge / Deprivation of a decent standard of living</td>
+              <td>Based on Sen's capability approach.<br><br>The three indicators are treated as non-substitutable, meaning that poor performance in one dimension should not simply be offset by good performance in another.<br><br>uses a mean of order three to limit compensation.</td>
+            </tr>
+            <tr>
+              <td><strong>Quality of Life Index(QoL/Il Sole 24 Ore)</strong></td>
+              <td>Quality of life across Italty</td>
+              <td>36 indicators divided into 6 dimensions: Living standard / Job and business / Environment and health / Public order / Population / Free time</td>
+              <td>Each dimension contains 6 indicators.<br><br>1. Normalization<br>2. arithmetic means are calculated within the dimensions&nbsp;<br>3. Arithmetic means across dimensions<br><br>= final index is the arithmetic mean of all 36 normalized indicators<br><br>= a compensatory index.</td>
+            </tr>
+            <tr>
+              <td><strong>QUARS – Regional Quality of Development Index</strong></td>
+              <td>Multidimensional development of Italian regions</td>
+              <td>41 indicators across 7 dimensions: Environment / Economy and labour / Rights and citizenship / Health / Education and culture / Equal opportunities / Participation</td>
+              <td>Each dimension is summarized using standardized indicators<br><br>the overall QUARS index is the arithmetic mean of the seven macro-indicators<br><br>Like the Il Sole 24 Ore index, it is a compensatory index.</td>
+            </tr>
+            <tr>
+              <td><strong>Mazziotta-Pareto Index (MPI)</strong></td>
+              <td>Multidimensional development/quality of life with imbalance among dimensions</td>
+              <td>Multiple socio-economic indicators<br><br>the paper discusses the method rather than giving one fixed universal variable set</td>
+              <td><strong>non-compensatory composite index</strong><br><br>It starts from an arithmetic mean but adjusts it according to variability among the indicators<br><br>A geographical area with very uneven performance receives a penalty<br><br>= a very strong result in one indicator cannot completely offset a weak result in another</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        One important point is that the paper does not provide a single fixed set of variables for the MPI in the same way that it lists the three HDI variables or the QUARS dimensions. MPI is presented primarily as an aggregation methodology that can be applied to a set of indicators.
+      </p>
+
+      <h2>New Insights and Surprising Findings</h2>
+
+      <p>
+        I also found the HDI example particularly useful. I had thought that changing from an arithmetic mean to a geometric mean was simply a technical improvement. The paper shows that there is actually a trade-off. The geometric mean reduces the problem of excessive compensation, but it introduces other issues, including sensitivity to zero or near-zero values and the assumption of a multiplicative relationship among dimensions.
+      </p>
+      <p>
+        Another thing that surprised me was that making a composite index was actually simpler than I expected. Before reading the paper, I thought creating an index would require very complicated statistical methods. However, many of the examples were based on simple steps such as normalization, averaging, and combining indicators. It made me think that “simple is the best” also applies to composite indices. Since an index is made to simplify complicated information, I found it interesting that the way to create it can also be quite simple.
+      </p>
+    </div>
+  </article>
+
+  <footer class="page__footer">
+    <span>© 2026 Saebom Park</span>
+    <a href="../blog.html">&larr; All posts</a>
+  </footer>
+
+</main>
+
+</body>
+</html>
