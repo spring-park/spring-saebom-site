@@ -15,7 +15,16 @@
  *   excerpt — one or two sentences shown on the blog index
  *   tag     — a single short category label (optional — omit or leave "")
  */
+
 window.POSTS = [
+  {
+    slug: "methods-for-constructing-composite-indices",
+    title: "Methods for Constructing Composite Indices: One for All or All for One?",
+    date: "2026-09-20",
+    excerpt:
+      "Mazziotta and Pareto (2013) explain why composite indices combine several dimensions to represent multidimensional phenomena.",
+    tag: "Data Science",
+  },
   {
     slug: "birthday-problem-monte-carlo",
     title: "The Birthday Problem with Monte Carlo Simulation",
