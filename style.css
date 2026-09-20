@@ -420,6 +420,50 @@ button:focus-visible {
   font-style: italic;
 }
 
+.post-content .table-scroll {
+  width: 100%;
+  margin: 28px 0 32px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.post-content table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.post-content th,
+.post-content td {
+  padding: 14px 16px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-content th:last-child,
+.post-content td:last-child {
+  border-right: 0;
+}
+
+.post-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.post-content th {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.post-content td {
+  background: var(--surface);
+}
+
 /* ---------- Header ---------- */
 
 .masthead {
