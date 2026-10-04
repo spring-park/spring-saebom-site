@@ -25,6 +25,30 @@ window.POSTS = [
     tag: "Data Science",
   },
   {
+    slug: "methods-for-constructing-composite-indices",
+    title: "Methods for Constructing Composite Indices: One for All or All for One?",
+    date: "2026-09-20",
+    excerpt:
+      "Mazziotta and Pareto (2013) explain why composite indices combine several dimensions to represent multidimensional phenomena.",
+    tag: "Data Science",
+  },
+  {
+    slug: "birthday-problem-monte-carlo",
+    title: "The Birthday Problem with Monte Carlo Simulation",
+    date: "2026-09-13",
+    excerpt:
+      "Using Python, sets, and Monte Carlo simulation to estimate the chance that two students in a class share a birthday.",
+    tag: "Python",
+  },
+  {
+    slug: "can-machine-learning-predict-human-migration-better",
+    title: "Can Machine Learning Predict Human Migration Better?",
+    date: "2026-09-13",
+    excerpt:
+      "A review of how machine learning models handle unusual migration data and compare with traditional approaches to predicting human migration.",
+    tag: "Data Science",
+  },
+  {
     slug: "hello-world",
     title: "Hello, and welcome",
     date: "2026-08-28",
