@@ -1,0 +1,22 @@
+Upload these files to https://github.com/spring-park/spring-saebom-site
+while preserving the folder structure.
+
+Repository root (replace existing files):
+- blog.html
+- posts-data.js
+- style.css
+
+posts/ folder:
+- nado-seoul-expansion-index.html
+
+assets/nado-index/ folder:
+- CDS500_index_SUBMISSION.ipynb
+- lisa-map.png
+- method-correlations.png
+- three-method-maps.png
+
+After committing the upload, the post URL will be:
+https://spring-park.github.io/spring-saebom-site/posts/nado-seoul-expansion-index.html
+
+The blog index will be:
+https://spring-park.github.io/spring-saebom-site/blog.html

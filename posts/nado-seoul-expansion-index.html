@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where should NADO expand next? — Saebom Park</title>
+<meta name="description" content="Building and comparing three composite indices to identify promising Seoul neighborhoods for NADO's English-conversation service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+
+<main class="page page--narrow">
+
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta">
+        <span>Oct 4, 2026</span>
+        <span>·</span>
+        <span>Data Science</span>
+      </div>
+      <h1 class="post-header__title">Where should NADO expand next?</h1>
+      <p class="post-header__dek">
+        Building a composite index for English-conversation service opportunities
+        across Seoul's 425 administrative neighborhoods.
+      </p>
+    </header>
+
+    <div class="post-content">
+      <p>
+        NADO connects learners with in-person English-conversation instructors. As I
+        considered where the service should expand next, I wanted a decision tool that
+        went beyond intuition: which neighborhoods combine unmet market opportunity,
+        room for affordable differentiation, and enough public-transit access to make
+        in-person lessons practical?
+      </p>
+
+      <blockquote>
+        Research question: Which administrative neighborhoods in Seoul offer the
+        strongest combination of demand–supply opportunity, price opportunity, and
+        operational accessibility for NADO?
+      </blockquote>
+
+      <p>
+        The result is the <strong>NADO Seoul Expansion Opportunity Index</strong>. A
+        higher score means that a neighborhood looks more promising as an expansion
+        candidate; it does not mean that its current English-education access is better.
+      </p>
+
+      <div class="post-metrics" aria-label="Project summary">
+        <div><strong>425</strong><span>administrative dongs</span></div>
+        <div><strong>3,724</strong><span>English institutions</span></div>
+        <div><strong>3</strong><span>index methods</span></div>
+        <div><strong>999</strong><span>LISA permutations</span></div>
+      </div>
+
+      <h2>What the index measures</h2>
+      <p>
+        I organized the index into three equally weighted pillars. The transit pillar
+        first averages its two component indicators, preventing transportation from
+        receiving twice the weight of supply or price.
+      </p>
+
+      <div class="post-table-wrap">
+        <table class="post-table">
+          <thead>
+            <tr>
+              <th>Pillar</th>
+              <th>Indicator</th>
+              <th>Why it matters</th>
+              <th>Opportunity direction</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Demand–supply</td>
+              <td>English institutions per 10,000 residents aged 40–69</td>
+              <td>Measures competing supply relative to NADO's primary historical customer group.</td>
+              <td>Lower is better</td>
+            </tr>
+            <tr>
+              <td>Price</td>
+              <td>Median listed tuition</td>
+              <td>Higher local prices may leave more room for NADO to differentiate on affordability.</td>
+              <td>Higher is better</td>
+            </tr>
+            <tr>
+              <td>Operational access</td>
+              <td>Bus-stop density and unique-station density</td>
+              <td>Dense transit makes in-person matching more feasible for learners and instructors.</td>
+              <td>Higher is better</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The source data combine Seoul academy and tutoring-center records, living
+        population estimates, bus-stop locations, subway-station locations, and an
+        administrative-dong boundary file. Academy addresses were geocoded and then
+        assigned to the project SHP polygons through a spatial join, so every dataset
+        uses the same geographic unit.
+      </p>
+      <p>
+        Listed tuition was available for 1,323 institutions. I parsed 8,380 usable
+        course-price entries and calculated institution and neighborhood medians.
+        Tuition was observed directly in 322 dongs; the remaining 103 used their
+        district median and are marked as imputed in the analysis. Before scaling, I
+        applied <code>log1p</code> to skewed nonnegative variables and winsorized each
+        indicator at the 1st and 99th percentiles.
+      </p>
+
+      <h2>Three ways to build the composite index</h2>
+      <ol>
+        <li>
+          <strong>Min–Max with equal weights.</strong> Each oriented pillar is rescaled
+          from 0 to 100, then the three pillar scores are averaged.
+        </li>
+        <li>
+          <strong>Z-score with equal weights.</strong> Each oriented pillar is converted
+          to standard deviations from its mean, then averaged.
+        </li>
+        <li>
+          <strong>Mazziotta–Pareto Index, negative penalty (MPI−).</strong> Pillars are
+          standardized around 100 with a standard deviation of 10. The index subtracts
+          an imbalance penalty: <code>mean − standard deviation × coefficient of variation</code>.
+          This favors neighborhoods that are consistently strong rather than exceptional
+          on only one pillar.
+        </li>
+      </ol>
+
+      <figure class="post-figure post-figure--wide">
+        <img src="../assets/nado-index/three-method-maps.png" alt="Three choropleth maps comparing Min–Max, Z-score, and MPI-minus expansion opportunity rankings across Seoul administrative neighborhoods.">
+        <figcaption>
+          Percentile maps make the three methods visually comparable. Darker dongs rank
+          higher as NADO expansion candidates within each method.
+        </figcaption>
+      </figure>
+
+      <h2>Do the methods agree?</h2>
+      <p>
+        Yes. Pearson correlations range from 0.976 to 0.985, and Spearman rank
+        correlations range from 0.975 to 0.983. The broad spatial pattern is therefore
+        robust to the scaling and aggregation choice, although individual rankings still
+        move. Replacing the 40–69 population denominator with ages 20–69 also produces a
+        Spearman correlation of 0.996, suggesting that the overall pattern is not driven
+        by one narrow age definition.
+      </p>
+
+      <figure class="post-figure">
+        <img src="../assets/nado-index/method-correlations.png" alt="Pearson and Spearman correlation matrices showing strong agreement among the three composite-index methods.">
+        <figcaption>
+          All three approaches produce highly similar scores and rankings.
+        </figcaption>
+      </figure>
+
+      <h2>Top and bottom five neighborhoods</h2>
+      <p>
+        The table reports each method's five highest- and lowest-scoring dongs. Scores
+        are method-specific and should not be compared across columns as if they shared
+        the same unit.
+      </p>
+
+      <div class="post-table-wrap post-table-wrap--wide">
+        <table class="post-table post-table--ranking">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Top 5 expansion candidates</th>
+              <th>Bottom 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Min–Max</td>
+              <td>
+                1. 서교동, 마포구 (77.25)<br>
+                2. 회현동, 중구 (75.68)<br>
+                3. 을지로동, 중구 (73.74)<br>
+                4. 소공동, 중구 (73.07)<br>
+                5. 반포1동, 서초구 (72.81)
+              </td>
+              <td>
+                1. 암사2동, 강동구 (16.94)<br>
+                2. 중계본동, 노원구 (19.18)<br>
+                3. 진관동, 은평구 (19.76)<br>
+                4. 항동, 구로구 (20.82)<br>
+                5. 삼전동, 송파구 (20.89)
+              </td>
+            </tr>
+            <tr>
+              <td>Z-score</td>
+              <td>
+                1. 서교동, 마포구 (1.85)<br>
+                2. 반포1동, 서초구 (1.55)<br>
+                3. 도곡2동, 강남구 (1.52)<br>
+                4. 회현동, 중구 (1.41)<br>
+                5. 소공동, 중구 (1.34)
+              </td>
+              <td>
+                1. 암사2동, 강동구 (−1.19)<br>
+                2. 상계3·4동, 노원구 (−0.99)<br>
+                3. 평창동, 종로구 (−0.98)<br>
+                4. 진관동, 은평구 (−0.95)<br>
+                5. 등촌2동, 강서구 (−0.91)
+              </td>
+            </tr>
+            <tr>
+              <td>MPI−</td>
+              <td>
+                1. 서교동, 마포구 (117.66)<br>
+                2. 회현동, 중구 (115.90)<br>
+                3. 반포1동, 서초구 (115.53)<br>
+                4. 을지로동, 중구 (114.98)<br>
+                5. 소공동, 중구 (114.65)
+              </td>
+              <td>
+                1. 암사2동, 강동구 (87.52)<br>
+                2. 중계본동, 노원구 (88.18)<br>
+                3. 평창동, 종로구 (88.29)<br>
+                4. 상계3·4동, 노원구 (88.77)<br>
+                5. 진관동, 은평구 (88.96)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        서교동 ranks first under all three methods. Central neighborhoods including
+        회현동, 을지로동, and 소공동 repeatedly appear near the top, while 암사2동 is
+        last under every specification. For the final decision tool, I use MPI− because
+        it explicitly penalizes a neighborhood that performs well on one pillar but
+        poorly on the others.
+      </p>
+
+      <h2>AI-assisted extension: a LISA map</h2>
+      <p>
+        As an additional AI-assisted analysis, I calculated Local Moran's I using Queen
+        contiguity and 999 conditional random permutations. LISA asks whether high- or
+        low-opportunity dongs are surrounded by neighbors with similar values, revealing
+        clusters that a ranked table cannot show.
+      </p>
+
+      <figure class="post-figure">
+        <img src="../assets/nado-index/lisa-map.png" alt="LISA cluster map of the final MPI-minus expansion opportunity index across Seoul.">
+        <figcaption>
+          At p &lt; 0.05, 33 dongs form High–High clusters and three form Low–Low
+          clusters. Four are High–Low and 14 are Low–High spatial outliers; the remaining
+          371 are not statistically significant.
+        </figcaption>
+      </figure>
+
+      <h2>What I would use—and what I would not claim</h2>
+      <p>
+        This index is a screening tool, not an automatic expansion decision. It gives
+        NADO a defensible shortlist for field research, instructor recruitment, and a
+        small pilot. A high score does not prove that residents will enroll.
+      </p>
+      <ul>
+        <li>Living population is a proxy for potential demand, not observed purchase intent.</li>
+        <li>Public academy records approximate competing supply but do not perfectly isolate adult conversation programs.</li>
+        <li>Tuition is partially observed, and 103 dong-level values require district-median imputation.</li>
+        <li>Transit density measures geographic availability, not actual travel time or instructor schedules.</li>
+        <li>Keyword-based academy classification may contain false positives or false negatives.</li>
+      </ul>
+      <p>
+        The next business step would be to validate the MPI− shortlist with a small,
+        consistent experiment: identical advertisements, instructor availability, and
+        conversion tracking across several high-, middle-, and low-ranked neighborhoods.
+        That would turn the current opportunity index into a model informed by observed
+        NADO demand.
+      </p>
+
+      <p class="post-download">
+        <a href="../assets/nado-index/CDS500_index_SUBMISSION.ipynb" download>
+          Download the complete analysis notebook &darr;
+        </a>
+      </p>
+    </div>
+  </article>
+
+  <footer class="page__footer">
+    <span>© 2026 Saebom Park</span>
+    <a href="../blog.html">&larr; All posts</a>
+  </footer>
+
+</main>
+
+</body>
+</html>

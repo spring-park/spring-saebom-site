@@ -15,30 +15,13 @@
  *   excerpt — one or two sentences shown on the blog index
  *   tag     — a single short category label (optional — omit or leave "")
  */
-
 window.POSTS = [
   {
-    slug: "methods-for-constructing-composite-indices",
-    title: "Methods for Constructing Composite Indices: One for All or All for One?",
-    date: "2026-09-20",
+    slug: "nado-seoul-expansion-index",
+    title: "Where should NADO expand next?",
+    date: "2026-10-04",
     excerpt:
-      "Mazziotta and Pareto (2013) explain why composite indices combine several dimensions to represent multidimensional phenomena.",
-    tag: "Data Science",
-  },
-  {
-    slug: "birthday-problem-monte-carlo",
-    title: "The Birthday Problem with Monte Carlo Simulation",
-    date: "2026-09-13",
-    excerpt:
-      "Using Python, sets, and Monte Carlo simulation to estimate the chance that two students in a class share a birthday.",
-    tag: "Python",
-  },
-  {
-    slug: "can-machine-learning-predict-human-migration-better",
-    title: "Can Machine Learning Predict Human Migration Better?",
-    date: "2026-09-13",
-    excerpt:
-      "A review of how machine learning models handle unusual migration data and compare with traditional approaches to predicting human migration.",
+      "I compared three composite-index methods across Seoul's 425 administrative neighborhoods to identify promising expansion areas for NADO.",
     tag: "Data Science",
   },
   {
