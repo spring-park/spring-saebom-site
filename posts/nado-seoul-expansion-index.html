@@ -40,7 +40,7 @@
 
     <div class="post-content">
       <p>
-        NADO connects learners with in-person English-conversation instructors. As I
+        NADO connects learners with in-person English-conversation teachers. As I
         considered where the service should expand next, I wanted a decision tool that
         went beyond intuition: which neighborhoods combine unmet market opportunity,
         room for affordable differentiation, and enough public-transit access to make
@@ -93,13 +93,13 @@
             <tr>
               <td>Price</td>
               <td>Median listed tuition</td>
-              <td>Higher local prices may leave more room for NADO to differentiate on affordability.</td>
+              <td>Higher local tuition may create an opportunity for NADO to compete by offering a more affordable alternative.</td>
               <td>Higher is better</td>
             </tr>
             <tr>
               <td>Operational access</td>
               <td>Bus-stop density and unique-station density</td>
-              <td>Dense transit makes in-person matching more feasible for learners and instructors.</td>
+              <td>Dense transit makes in-person matching more feasible for learners and teachers.</td>
               <td>Higher is better</td>
             </tr>
           </tbody>
@@ -114,12 +114,21 @@
         uses the same geographic unit.
       </p>
       <p>
-        Listed tuition was available for 1,323 institutions. I parsed 8,380 usable
-        course-price entries and calculated institution and neighborhood medians.
-        Tuition was observed directly in 322 dongs; the remaining 103 used their
-        district median and are marked as imputed in the analysis. Before scaling, I
-        applied <code>log1p</code> to skewed nonnegative variables and winsorized each
-        indicator at the 1st and 99th percentiles.
+        Listed tuition was available for 1,323 institutions. One institution can report
+        several courses—such as different levels, schedules, or class types—with a
+        separate price for each. Splitting those lists produced 8,387 course-price rows;
+        after removing seven zero- or one-won placeholders, 8,380 usable entries
+        remained. I first calculated the median price within each institution and then
+        the median across institutions in each dong, so an institution with more listed
+        courses did not receive extra weight. Tuition was observed directly in 322
+        dongs; the remaining 103 used their district median and are marked as imputed.
+      </p>
+      <p>
+        Before scaling, I used <code>log1p</code> on nonnegative indicators with a long
+        right tail. In plain terms, this compresses unusually large values while keeping
+        zero valid, so a few extreme neighborhoods do not dominate the index. I also
+        winsorized each indicator at the 1st and 99th percentiles: values outside those
+        cutoffs were capped at the cutoff values rather than deleted.
       </p>
 
       <h2>Three ways to build the composite index</h2>
@@ -136,8 +145,11 @@
           <strong>Mazziotta–Pareto Index, negative penalty (MPI−).</strong> Pillars are
           standardized around 100 with a standard deviation of 10. The index subtracts
           an imbalance penalty: <code>mean − standard deviation × coefficient of variation</code>.
-          This favors neighborhoods that are consistently strong rather than exceptional
-          on only one pillar.
+          Put simply, this places all three pillars on the same report-card scale, with
+          an average of 100. It starts with a neighborhood's average pillar score and
+          subtracts more points when its pillars are far apart. A neighborhood that is
+          solid across all three pillars can therefore outrank one that is excellent on
+          one pillar but weak on the other two.
         </li>
       </ol>
 
@@ -151,7 +163,12 @@
 
       <h2>Do the methods agree?</h2>
       <p>
-        Yes. Pearson correlations range from 0.976 to 0.985, and Spearman rank
+        Yes. Pearson correlation measures whether the numerical scores from two methods
+        rise and fall together in an approximately linear way. Spearman rank correlation
+        ignores the score units and compares only the neighborhood ordering. These are
+        standard statistical measures used here as a robustness check—not additional
+        inputs to the index or components of the Mazziotta–Pareto method. Pearson
+        correlations range from 0.976 to 0.985, and Spearman
         correlations range from 0.975 to 0.983. The broad spatial pattern is therefore
         robust to the scaling and aggregation choice, although individual rankings still
         move. Replacing the 40–69 population denominator with ages 20–69 also produces a
@@ -251,34 +268,57 @@
         As an additional AI-assisted analysis, I calculated Local Moran's I using Queen
         contiguity and 999 conditional random permutations. LISA asks whether high- or
         low-opportunity dongs are surrounded by neighbors with similar values, revealing
-        clusters that a ranked table cannot show.
+        clusters that a ranked table cannot show. Here, “high” and “low” mean above or
+        below the Seoul-wide average MPI− score, not an absolute business threshold.
+      </p>
+
+      <p>
+        <a href="https://walker-data.com/posts/esda-with-python/">Kyle Walker's Python
+        example</a> provided the reference workflow: Queen-contiguity spatial weights,
+        Local Moran's I, conditional permutations, quadrant labels, and a 0.05
+        pseudo-p-value threshold. The final analysis uses
+        <code>libpysal.weights.Queen</code> and <code>esda.Moran_Local(...).p_sim</code>
+        so its significance test follows that implementation directly. The setting is
+        different—Seoul administrative dongs and MPI− expansion scores here, rather
+        than U.S. Census tracts and median age. Walker also uses GeoPandas
+        <code>.explore()</code> for an interactive map. I retained a static map because
+        the assignment requires a LISA map; interactivity changes how the result is
+        explored, not how Local Moran's I is calculated.
       </p>
 
       <figure class="post-figure">
         <img src="../assets/nado-index/lisa-map.png" alt="LISA cluster map of the final MPI-minus expansion opportunity index across Seoul.">
         <figcaption>
-          At p &lt; 0.05, 33 dongs form High–High clusters and three form Low–Low
-          clusters. Four are High–Low and 14 are Low–High spatial outliers; the remaining
-          371 are not statistically significant.
+          At p &lt; 0.05, 37 dongs form High–High clusters and 23 form Low–Low
+          clusters. Twelve are High–Low and 16 are Low–High spatial outliers; the
+          remaining 337 are not statistically significant.
         </figcaption>
       </figure>
+
+      <ul>
+        <li><strong>High–High:</strong> a high-opportunity dong surrounded by high-opportunity neighbors—a broader cluster of strong candidates.</li>
+        <li><strong>Low–Low:</strong> a low-opportunity dong surrounded by low-opportunity neighbors—a cluster of weaker candidates.</li>
+        <li><strong>High–Low:</strong> a high-opportunity dong surrounded by low-opportunity neighbors—a positive spatial outlier.</li>
+        <li><strong>Low–High:</strong> a low-opportunity dong surrounded by high-opportunity neighbors—a negative spatial outlier inside a stronger area.</li>
+        <li><strong>Not significant:</strong> the permutation test does not provide enough evidence that the observed local pattern is more distinct than chance at <code>p &lt; 0.05</code>.</li>
+      </ul>
 
       <h2>What I would use—and what I would not claim</h2>
       <p>
         This index is a screening tool, not an automatic expansion decision. It gives
-        NADO a defensible shortlist for field research, instructor recruitment, and a
+        NADO a defensible shortlist for field research, teacher recruitment, and a
         small pilot. A high score does not prove that residents will enroll.
       </p>
       <ul>
         <li>Living population is a proxy for potential demand, not observed purchase intent.</li>
         <li>Public academy records approximate competing supply but do not perfectly isolate adult conversation programs.</li>
         <li>Tuition is partially observed, and 103 dong-level values require district-median imputation.</li>
-        <li>Transit density measures geographic availability, not actual travel time or instructor schedules.</li>
+        <li>Transit density measures geographic availability, not actual travel time or teacher schedules.</li>
         <li>Keyword-based academy classification may contain false positives or false negatives.</li>
       </ul>
       <p>
         The next business step would be to validate the MPI− shortlist with a small,
-        consistent experiment: identical advertisements, instructor availability, and
+        consistent experiment: identical advertisements, teacher availability, and
         conversion tracking across several high-, middle-, and low-ranked neighborhoods.
         That would turn the current opportunity index into a model informed by observed
         NADO demand.

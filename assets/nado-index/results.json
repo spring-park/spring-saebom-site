@@ -1,0 +1,217 @@
+{
+  "pearson": {
+    "Method1_MinMax": {
+      "Method1_MinMax": 1.0,
+      "Method2_ZScore": 0.982693,
+      "Method3_MPI": 0.985057
+    },
+    "Method2_ZScore": {
+      "Method1_MinMax": 0.982693,
+      "Method2_ZScore": 1.0,
+      "Method3_MPI": 0.976127
+    },
+    "Method3_MPI": {
+      "Method1_MinMax": 0.985057,
+      "Method2_ZScore": 0.976127,
+      "Method3_MPI": 1.0
+    }
+  },
+  "spearman": {
+    "Method1_MinMax": {
+      "Method1_MinMax": 1.0,
+      "Method2_ZScore": 0.98263,
+      "Method3_MPI": 0.981905
+    },
+    "Method2_ZScore": {
+      "Method1_MinMax": 0.98263,
+      "Method2_ZScore": 1.0,
+      "Method3_MPI": 0.97483
+    },
+    "Method3_MPI": {
+      "Method1_MinMax": 0.981905,
+      "Method2_ZScore": 0.97483,
+      "Method3_MPI": 1.0
+    }
+  },
+  "top_bottom": {
+    "Method1_MinMax": {
+      "top": [
+        {
+          "자치구명": "마포구",
+          "ADSTRD_NM": "서교동",
+          "Method1_MinMax": 77.24913276170957
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "회현동",
+          "Method1_MinMax": 75.67841272372682
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "을지로동",
+          "Method1_MinMax": 73.7353684236581
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "소공동",
+          "Method1_MinMax": 73.07142834737796
+        },
+        {
+          "자치구명": "서초구",
+          "ADSTRD_NM": "반포1동",
+          "Method1_MinMax": 72.80766642889817
+        }
+      ],
+      "bottom": [
+        {
+          "자치구명": "강동구",
+          "ADSTRD_NM": "암사2동",
+          "Method1_MinMax": 16.93508586973596
+        },
+        {
+          "자치구명": "노원구",
+          "ADSTRD_NM": "중계본동",
+          "Method1_MinMax": 19.181783301979372
+        },
+        {
+          "자치구명": "은평구",
+          "ADSTRD_NM": "진관동",
+          "Method1_MinMax": 19.762828746160697
+        },
+        {
+          "자치구명": "구로구",
+          "ADSTRD_NM": "항동",
+          "Method1_MinMax": 20.816922017915626
+        },
+        {
+          "자치구명": "송파구",
+          "ADSTRD_NM": "삼전동",
+          "Method1_MinMax": 20.88714045816862
+        }
+      ]
+    },
+    "Method2_ZScore": {
+      "top": [
+        {
+          "자치구명": "마포구",
+          "ADSTRD_NM": "서교동",
+          "Method2_ZScore": 1.8495631227048588
+        },
+        {
+          "자치구명": "서초구",
+          "ADSTRD_NM": "반포1동",
+          "Method2_ZScore": 1.5473251656970641
+        },
+        {
+          "자치구명": "강남구",
+          "ADSTRD_NM": "도곡2동",
+          "Method2_ZScore": 1.5189990870066652
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "회현동",
+          "Method2_ZScore": 1.4131548994230119
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "소공동",
+          "Method2_ZScore": 1.3397083295481582
+        }
+      ],
+      "bottom": [
+        {
+          "자치구명": "강동구",
+          "ADSTRD_NM": "암사2동",
+          "Method2_ZScore": -1.192209824141745
+        },
+        {
+          "자치구명": "노원구",
+          "ADSTRD_NM": "상계3·4동",
+          "Method2_ZScore": -0.9884062442842931
+        },
+        {
+          "자치구명": "종로구",
+          "ADSTRD_NM": "평창동",
+          "Method2_ZScore": -0.9778644524150177
+        },
+        {
+          "자치구명": "은평구",
+          "ADSTRD_NM": "진관동",
+          "Method2_ZScore": -0.9538186711275426
+        },
+        {
+          "자치구명": "강서구",
+          "ADSTRD_NM": "등촌2동",
+          "Method2_ZScore": -0.9131481187351159
+        }
+      ]
+    },
+    "Method3_MPI": {
+      "top": [
+        {
+          "자치구명": "마포구",
+          "ADSTRD_NM": "서교동",
+          "Method3_MPI": 117.66359917812541
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "회현동",
+          "Method3_MPI": 115.90271730752603
+        },
+        {
+          "자치구명": "서초구",
+          "ADSTRD_NM": "반포1동",
+          "Method3_MPI": 115.53233238654232
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "을지로동",
+          "Method3_MPI": 114.97852615823382
+        },
+        {
+          "자치구명": "중구",
+          "ADSTRD_NM": "소공동",
+          "Method3_MPI": 114.65488895168548
+        }
+      ],
+      "bottom": [
+        {
+          "자치구명": "강동구",
+          "ADSTRD_NM": "암사2동",
+          "Method3_MPI": 87.52130101855008
+        },
+        {
+          "자치구명": "노원구",
+          "ADSTRD_NM": "중계본동",
+          "Method3_MPI": 88.18037430683644
+        },
+        {
+          "자치구명": "종로구",
+          "ADSTRD_NM": "평창동",
+          "Method3_MPI": 88.28772066746237
+        },
+        {
+          "자치구명": "노원구",
+          "ADSTRD_NM": "상계3·4동",
+          "Method3_MPI": 88.77065092308702
+        },
+        {
+          "자치구명": "은평구",
+          "ADSTRD_NM": "진관동",
+          "Method3_MPI": 88.9564781707549
+        }
+      ]
+    }
+  },
+  "lisa_counts": {
+    "Not significant": 337,
+    "High–High": 37,
+    "Low–Low": 23,
+    "Low–High": 16,
+    "High–Low": 12
+  },
+  "n_dongs": 425,
+  "fee_observed_dongs": 322,
+  "fee_imputed_dongs": 103,
+  "lisa_method": "libpysal Queen + esda.Moran_Local p_sim"
+}
