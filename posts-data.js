@@ -17,6 +17,13 @@
  */
 window.POSTS = [
   {
+    slug: "brokers-and-centralization-in-redd-networks",
+    title: "Who Connects the REDD+ Network? Brokers and Concentrated Polycentricity",
+    date: "2026-10-18",
+    excerpt: "A review of Gallemore and Munroe (2013): what brokers do, where network connections are concentrated, and how three social network visualizations are constructed.",
+    tag: "Data Science",
+  },
+  {
     slug: "nado-seoul-expansion-index",
     title: "Where should NADO expand next?",
     date: "2026-10-04",
