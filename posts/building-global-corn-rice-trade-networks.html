@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Global Corn and Rice Trade Networks — Saebom Park</title>
+<meta name="description" content="How FAOSTAT bilateral trade records were cleaned and converted into directed corn and rice trade networks from 1986 to 2024.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .trade-figure {margin:28px 0 32px;}
+  .trade-figure img {max-width:100%;width:100%;height:auto;display:block;border-radius:5px;border:1px solid var(--border,#e2e5df);background:white;}
+  .trade-figure figcaption {font-size:.85rem;line-height:1.6;color:var(--text-muted,#5c665e);margin-top:9px;}
+  .trade-figure--wide {width:min(1000px,calc(100vw - 32px));max-width:none;position:relative;left:50%;transform:translateX(-50%);}
+  .trade-figure--wide img {width:100%;}
+  .trade-data-table {width:100%;border-collapse:collapse;font-size:.87rem;line-height:1.55;margin:14px 0 25px;}
+  .trade-data-table th, .trade-data-table td {border-bottom:1px solid var(--border,#e2e5df);padding:9px 7px;text-align:left;vertical-align:top;}
+  .trade-data-table th {color:var(--text-muted,#5c665e);font-weight:600;}
+  .trade-data-table td:last-child,.trade-data-table th:last-child {text-align:right;}
+  .trade-table-wrap {overflow-x:auto;margin:12px 0 25px;}
+  .trade-muted {color:var(--text-muted,#5c665e);font-size:.87rem;}
+  .trade-next {margin-top:38px;border-top:1px solid var(--border,#e2e5df);padding-top:18px;}
+  @media(max-width:650px){.trade-figure--wide {width:calc(100vw - 28px);}.trade-figure figcaption{font-size:.78rem;}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+<main class="page page--narrow">
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta"><time datetime="2026-11-01">Nov 1, 2026</time><span>·</span><span>Data Science</span></div>
+      <h1 class="post-header__title">Building Global Corn and Rice Trade Networks</h1>
+      <p class="post-header__dek">From bilateral import and export reports to annual network edge lists.</p>
+    </header>
+    <div class="post-content">
+<p>How can we turn country-to-country agricultural trade records into a network? I used FAOSTAT's <strong>Detailed Trade Matrix</strong> to construct yearly corn and rice trade networks covering 1986–2024. The goal is to compare how the two commodities connect countries, not just how much they trade.</p>
+<h2>1. Choose the data</h2>
+<p>I kept two items—<strong>Maize (corn)</strong> and <strong>Rice, paddy (rice milled equivalent)</strong>—and only the <code>Import quantity</code> and <code>Export quantity</code> elements. I selected the reporter, partner, year, item, element, and value fields. Quantities are in tonnes (<code>t</code>).</p>
+<h2>2. Reconcile import and export records</h2>
+<p>The same flow can be recorded by either side: an importing country's <em>import</em> report or the exporting country's <em>export</em> report. I reversed the reporter and partner for export observations so both records used <strong>importer = Reporter</strong> and <strong>exporter = Partner</strong>.</p>
+<p>I then merged records by <code>Item</code>, <code>Reporter</code>, <code>Partner</code>, and <code>Year</code>. When an import quantity was available, I used it; when it was missing, I filled it with the export report. A reported zero is not treated as missing. Identical duplicate rows were removed before merging, and the merge required one record per key.</p>
+<div class="trade-table-wrap"><table class="trade-data-table"><thead><tr><th>Importer</th><th>Exporter</th><th>Year</th><th>Import</th><th>Export</th><th>Final quantity (t)</th></tr></thead><tbody>
+<tr><td>Afghanistan</td><td>Argentina</td><td>2017</td><td>Missing</td><td>130.00</td><td>130.00</td></tr>
+<tr><td>Afghanistan</td><td>Brazil</td><td>2018</td><td>Missing</td><td>12,816.80</td><td>12,816.80</td></tr>
+</tbody></table></div>
+<p class="trade-muted">Examples from the processed corn dataset: an export report fills a missing import quantity. These are not new estimates.</p>
+<h2>3. Build the directed edge list</h2>
+<p>I renamed the columns to <code>O</code> (exporter), <code>D</code> (importer), <code>Year</code>, <code>Item</code>, and <code>quantity</code>. Rows with missing fields, non-positive quantities, or the same exporter and importer were excluded.</p>
+<div class="trade-table-wrap"><table class="trade-data-table"><thead><tr><th>O (exporter)</th><th>D (importer)</th><th>Year</th><th>Commodity</th><th>quantity (t)</th></tr></thead><tbody>
+<tr><td>Argentina</td><td>Afghanistan</td><td>2017</td><td>Corn</td><td>130.00</td></tr>
+<tr><td>Brazil</td><td>Afghanistan</td><td>2018</td><td>Corn</td><td>12,816.80</td></tr>
+<tr><td>Brazil</td><td>Afghanistan</td><td>2019</td><td>Corn</td><td>260.00</td></tr>
+</tbody></table></div>
+<h2>4. Create annual networks</h2>
+<p>Using Python's <code>NetworkX</code>, I created a separate <strong>directed graph</strong> for each year and commodity. Each country is a node; an edge runs <strong>from the exporter to the importer</strong>; and <code>quantity</code> is the edge's weight. I then calculated network density, degree-based measures, betweenness, and eigenvector centrality.</p>
+<p>Import volume and the number of import partners are different measures: <code>in_degree(country)</code> counts incoming connections, whereas <code>in_degree(country, weight='quantity')</code> sums their tonnage. This distinction matters in the results.</p>
+<p class="trade-next"><strong>Continue reading:</strong> <a href="global-corn-rice-trade-networks-results.html">Global Corn and Rice Trade Networks: Results and Implications</a>.</p>
+<p class="trade-muted">Data source: <a href="https://www.fao.org/faostat/en/#data/TM" target="_blank" rel="noopener">FAOSTAT Detailed Trade Matrix</a>. Code and figures are based on the accompanying analysis notebook.</p>
+</div>
+  </article>
+  <footer class="page__footer"><span>© 2026 Saebom Park</span><a href="../blog.html">&larr; All posts</a></footer>
+</main>
+</body>
+</html>

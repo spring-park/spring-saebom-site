@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Corn and Rice Trade Networks: Results and Implications — Saebom Park</title>
+<meta name="description" content="Comparing global corn and rice network density, import partners, trade volumes, centrality, and the largest bilateral routes from 1986 to 2024.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .trade-figure {margin:28px 0 32px;}
+  .trade-figure img {max-width:100%;width:100%;height:auto;display:block;border-radius:5px;border:1px solid var(--border,#e2e5df);background:white;}
+  .trade-figure figcaption {font-size:.85rem;line-height:1.6;color:var(--text-muted,#5c665e);margin-top:9px;}
+  .trade-figure--wide {width:min(1000px,calc(100vw - 32px));max-width:none;position:relative;left:50%;transform:translateX(-50%);}
+  .trade-figure--wide img {width:100%;}
+  .trade-data-table {width:100%;border-collapse:collapse;font-size:.87rem;line-height:1.55;margin:14px 0 25px;}
+  .trade-data-table th, .trade-data-table td {border-bottom:1px solid var(--border,#e2e5df);padding:9px 7px;text-align:left;vertical-align:top;}
+  .trade-data-table th {color:var(--text-muted,#5c665e);font-weight:600;}
+  .trade-data-table td:last-child,.trade-data-table th:last-child {text-align:right;}
+  .trade-table-wrap {overflow-x:auto;margin:12px 0 25px;}
+  .trade-muted {color:var(--text-muted,#5c665e);font-size:.87rem;}
+  .trade-next {margin-top:38px;border-top:1px solid var(--border,#e2e5df);padding-top:18px;}
+  @media(max-width:650px){.trade-figure--wide {width:calc(100vw - 28px);}.trade-figure figcaption{font-size:.78rem;}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav__brand" href="../index.html">Saebom Park</a>
+  <ul class="nav__links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../cv.html">CV</a></li>
+    <li><a href="../blog.html" aria-current="page">Blog</a></li>
+  </ul>
+</nav>
+<main class="page page--narrow">
+  <article>
+    <header class="post-header">
+      <a class="post-header__back" href="../blog.html">&larr; Back to blog</a>
+      <div class="post-header__meta"><time datetime="2026-11-01">Nov 1, 2026</time><span>·</span><span>Data Science</span></div>
+      <h1 class="post-header__title">Global Corn and Rice Trade Networks: Results and Implications</h1>
+      <p class="post-header__dek">How connectivity, import volume, and centrality reveal different aspects of trade.</p>
+    </header>
+    <div class="post-content">
+<p>After constructing yearly directed trade networks from FAOSTAT data, I compared <strong>network density</strong>, the import volume and connectivity of major importers, and the central positions of countries in 2024. Corn and rice share a long-term increase in connectivity, but their key countries and routes are not the same.</p>
+<h2>1. How did network density change?</h2>
+<figure class="trade-figure"><img loading="lazy" src="../assets/fao-trade-network/density-1986-2024.png" alt="Line chart of annual corn and rice network density from 1986 to 2024"><figcaption>Figure 1. Directed network density measures the share of possible exporter-to-importer connections that are observed.</figcaption></figure>
+<p>Density increased from <strong>0.0368 to 0.0759 for corn</strong> and from <strong>0.0386 to 0.1042 for rice</strong> between 1986 and 2024. Rice had a higher density throughout the series. This describes the proportion of observed trade connections, <em>not</em> the amount traded.</p>
+<p>Both networks show a jump in 2014. Corn's recorded links increased from <strong>2,085 (2013) to 2,681 (2014)</strong>, while rice's increased from <strong>3,103 to 4,017</strong>. Both declined in 2024. Changes in reporting coverage may also affect observed links, so these shifts should not automatically be treated as evidence of new or discontinued real-world trading relationships.</p>
+<h2>2. Import partners versus import volume</h2>
+<p>I tracked the same five countries in each commodity, selected by <strong>cumulative import quantity over 1986–2024</strong>. In-degree counts the number of source countries; weighted in-degree sums imported tonnes. The figures reveal why those are not interchangeable.</p>
+<h3>Corn</h3>
+<figure class="trade-figure"><img loading="lazy" src="../assets/fao-trade-network/corn-import-volume.png" alt="Corn import quantity trends for the five largest cumulative importers"><figcaption>Figure 2. Annual corn import quantities among the five largest cumulative importers.</figcaption></figure>
+<figure class="trade-figure"><img loading="lazy" src="../assets/fao-trade-network/corn-in-degree.png" alt="Number of corn import partners over time for the same five countries"><figcaption>Figure 3. In-degree counts corn import partner countries, not tonnes.</figcaption></figure>
+<p>In 2024, <strong>Mexico</strong> imported approximately <strong>23.85 million tonnes</strong> of corn from <strong>14</strong> countries, while <strong>Spain</strong> imported <strong>9.38 million tonnes</strong> from <strong>41</strong> countries. More partners do not necessarily mean higher import volume.</p>
+<h3>Rice</h3>
+<figure class="trade-figure"><img loading="lazy" src="../assets/fao-trade-network/rice-import-volume.png" alt="Rice import quantity trends for the five largest cumulative importers"><figcaption>Figure 4. Annual rice import quantities among the five largest cumulative importers.</figcaption></figure>
+<figure class="trade-figure"><img loading="lazy" src="../assets/fao-trade-network/rice-in-degree.png" alt="Number of rice import partners over time for the same five countries"><figcaption>Figure 5. Rice import-partner counts for the same set of countries.</figcaption></figure>
+<p>The contrast also appears for rice: the <strong>Philippines</strong> imported around <strong>4.77 million tonnes</strong> from <strong>23</strong> partners in 2024, versus <strong>1.84 million tonnes</strong> from <strong>36</strong> partners for <strong>Saudi Arabia</strong>. These comparisons capture different network dimensions, but do not by themselves establish whether sourcing is concentrated among a few large suppliers.</p>
+<h2>3. Who is central to the 2024 network?</h2>
+<p>Total <strong>Degree</strong> combines incoming and outgoing edges; it counts directed trade connections, not the number of distinct partners or the volume shipped. The five largest values in each 2024 network were:</p>
+<div class="trade-table-wrap"><table class="trade-data-table"><thead><tr><th>Rank</th><th>Corn — country (Degree)</th><th>Rice — country (Degree)</th></tr></thead><tbody>
+<tr><td>1</td><td>United States (182)</td><td>United States (225)</td></tr>
+<tr><td>2</td><td>France (169)</td><td>India (197)</td></tr>
+<tr><td>3</td><td>Türkiye (135)</td><td>Thailand (193)</td></tr>
+<tr><td>4</td><td>Brazil (131)</td><td>Italy (182)</td></tr>
+<tr><td>5</td><td>Netherlands (128)</td><td>France (177)</td></tr>
+</tbody></table></div>
+<p>The United States ranked first by Degree in both networks, but other leading countries differed. <strong>Brazil ranked fourth for corn</strong>, while <strong>India and Thailand ranked second and third for rice</strong>. Different centrality metrics can also produce different rankings: for corn, the Netherlands had a higher eigenvector centrality than the United States despite a smaller Degree. These structural measures should not be interpreted as physical transit of goods through intermediate countries.</p>
+<h2>4. Where are the largest bilateral trade routes?</h2>
+<p>The maps below show <strong>the 30 largest routes in 2024</strong>. Line thickness indicates bilateral tonnage, arrows point from exporters to importers, and circle size represents total Degree. The tables in the figures list the ten largest routes explicitly.</p>
+<figure class="trade-figure trade-figure--wide"><img loading="lazy" src="../assets/fao-trade-network/corn-network-2024.png" alt="Map and table of 30 largest corn trade routes in 2024, arrows showing direction, line widths showing volume, and bubble sizes showing degree"><figcaption>Figure 6. Corn: the United States → Mexico (23.78 million tonnes) and United States → Japan (11.69 million tonnes) were two of the largest recorded routes. <a href="../assets/fao-trade-network/corn-network-interactive.html" target="_blank" rel="noopener">Open the interactive corn map</a>.</figcaption></figure>
+<figure class="trade-figure trade-figure--wide"><img loading="lazy" src="../assets/fao-trade-network/rice-network-2024.png" alt="Map and table of 30 largest rice trade routes in 2024, arrows showing direction, line widths showing volume, and bubble sizes showing degree"><figcaption>Figure 7. Rice: Vietnam → Philippines (3.55 million tonnes) and Cambodia → Vietnam (3.25 million tonnes) were among the largest routes. <a href="../assets/fao-trade-network/rice-network-interactive.html" target="_blank" rel="noopener">Open the interactive rice map</a>.</figcaption></figure>
+<p>Large corn flows connect the Americas with major importers including Japan, while several leading rice routes are within Asia. The maps show only the top 30 individual links, so they should not be used to infer the global share of interregional versus intraregional trade without additional calculations. Route arrows are schematic and do not trace real shipping paths.</p>
+<h2>5. Takeaway</h2>
+<p>Across 1986–2024, both commodity networks became more connected, with rice consistently showing higher density. But <strong>trade volume, partner count, and network centrality measure different things</strong>: a major importer need not have many partners, and a highly connected country need not participate in the largest bilateral shipment. Comparing all three offers a clearer view of the structure of global agricultural trade.</p>
+<p class="trade-muted">Source: <a href="https://www.fao.org/faostat/en/#data/TM" target="_blank" rel="noopener">FAOSTAT Detailed Trade Matrix</a> (author's network calculations). <a href="building-global-corn-rice-trade-networks.html">Read Post 1: Data Preprocessing</a>.</p>
+</div>
+  </article>
+  <footer class="page__footer"><span>© 2026 Saebom Park</span><a href="../blog.html">&larr; All posts</a></footer>
+</main>
+</body>
+</html>
