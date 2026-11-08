@@ -4,6 +4,13 @@
  */
 window.POSTS = [
   {
+    slug: "cho-et-al-multiresolution-trade-communities",
+    title: "Mapping Trade Communities Across Resolutions: Cho et al. (2023)",
+    date: "2026-11-08",
+    excerpt: "A step-by-step review of multiresolution community detection, hierarchical trade blocs, and membership inconsistency in Cho et al. (2023).",
+    tag: "Data Science",
+  },
+  {
     slug: "building-global-corn-rice-trade-networks",
     title: "Building Global Corn and Rice Trade Networks",
     date: "2026-11-01",
